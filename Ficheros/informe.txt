@@ -1,0 +1,2 @@
+CÓDIGO            DESCRIPCIÓN   UNIDADES   PRECIO
+     1             Procesador   -858993460   -107374176,00

@@ -31,7 +31,23 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="ficheros_ejercicio_89.c">
+    <ClCompile Include="ficheros_ejercicio_en1.c">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ficheros_ejercicio_en2.c">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ficheros_ejercicio_en3.c">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ficheros_ejercicio_en4.c">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ficheros_ejercicio_en4_2.c">
       <SubType>
       </SubType>
     </ClCompile>

@@ -1,14 +1,13 @@
-#define _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
-#include <windows.h>
-#include <locale.h>
-#include <conio.h>
+#pragma once
 #define TAM 10
 #define RUTA "productos.dat"
 #define INFO "informe.txt"
-
-
-typedef struct {
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <windows.h>
+/*
+typedef struct
+{
 	char descripcion[20];
 	float precio;
 	int existencias;
@@ -31,8 +30,12 @@ int PedirPos();
 void PedirDatos(PRODUCTO* reg);
 void MostrarDatos(PRODUCTO reg);
 
-int main() {
-	setlocale(LC_ALL, "");
+main()
+{
+	SetConsoleCP(1252);
+	SetConsoleOutputCP(1252);
+
+	//programar a partir de aquí
 	void (*funciones[])() = { Inicializar,Realizar,Alta,Baja,Mostrar,Consultar };
 	int opc;
 	opc = Menu();
@@ -42,6 +45,7 @@ int main() {
 		opc = Menu();
 	}
 }
+#include "Funcioens.h"
 
 void Inicializar()
 {
@@ -51,8 +55,8 @@ void Inicializar()
 	system("cls");
 	if (pf == NULL)
 	{
-		printf("\nError al crear el fichero");
-		_getch();
+		printf("Error al crear el fichero");
+		getch();
 		return;
 	}
 	reg.estado = 0;
@@ -60,46 +64,14 @@ void Inicializar()
 	{
 		fwrite(&reg, sizeof(reg), 1, pf);
 	}
-	printf("\nFichero creado con éxito!!!");
+	printf("Fichero creado con éxito!!!");
 	fclose(pf);
-	_getch();
+	getch();
+	return;
 }
 void Realizar()
 {
-	FILE* pf;
-	char resp; int pos, unid;
-	PRODUCTO reg;
-	do {
-		printf("\nQuieres comprar o vender? (c/v): ");
-		resp = tolower(_getche());
-	} while (resp != 'c' && resp != 'v');
-	pos = PedirPos();
-	printf("\nNúmero de unidades: ");
-	scanf("%d", &unid);
-	rewind(stdin);
-	pf = fopen(RUTA, "rb+");
-	if (pf == NULL) {
-		printf("\nError al abrir el fichero");
-		_getch();
-		return;
-	}
-	fseek(pf, (pos - 1) * sizeof(reg), SEEK_SET);
-	fread(&reg, sizeof(reg), 1, pf);
-	if (reg.existencias < unid) {
-		printf("\nNo se pueden vender más inodades de las existencias.");
-	}
-	else {
-		if (resp == 'c') {
-			reg.existencias += unid;
-		}
-		else {
-			reg.existencias -= unid;
-		}
-		fseek(pf, (pos - 1) * sizeof(reg), SEEK_SET);
-		fwrite(&reg, sizeof(reg), 1, pf);
-	}
-	fclose(pf);
-	_getch();
+
 }
 void Alta()
 {
@@ -110,8 +82,8 @@ void Alta()
 	system("cls");
 	if (pf == NULL)
 	{
-		printf("\nError al abrir el fichero");
-		_getch();
+		printf("Error al abrir el fichero");
+		getch();
 		return;
 	}
 	pos = PedirPos();
@@ -119,17 +91,17 @@ void Alta()
 	fread(&reg, sizeof(reg), 1, pf);
 	if (reg.estado == 1)
 	{
-		printf("\nEl registro especificado ya existe.");
+		printf("El registro especificado ya existe.");
 	}
 	else
 	{
 		PedirDatos(&reg);
 		fseek(pf, (pos - 1) * sizeof(reg), SEEK_SET);
 		fwrite(&reg, sizeof(reg), 1, pf);
-		printf("\nRegistro guardado con éxito!");
+		printf("Registro guardado con éxito!");
 	}
 	fclose(pf);
-	_getch();
+	getch();
 }
 void Baja()
 {
@@ -141,8 +113,8 @@ void Baja()
 	system("cls");
 	if (pf == NULL)
 	{
-		printf("\nError al abrir el fichero");
-		_getch();
+		printf("Error al abrir el fichero");
+		getch();
 		return;
 	}
 	pos = PedirPos();
@@ -150,26 +122,26 @@ void Baja()
 	fread(&reg, sizeof(reg), 1, pf);
 	if (reg.estado == 0)
 	{
-		printf("\nEl registro especificado no existe.");
+		printf("El registro especificado no existe.");
 	}
 	else
 	{
 		MostrarDatos(reg);
-		printf("\nEstá seguro que desea eliminar el registro?");
-		resp = toupper(_getche());
+		printf("Está seguro que desea eliminar el registro?");
+		resp = toupper(getche());
 		if (resp == 'S')
 		{
 			reg.estado = 0;
 			fseek(pf, (pos - 1) * sizeof(reg), SEEK_SET);
 			fwrite(&reg, sizeof(reg), 1, pf);
-			printf("\nRegistro eliminado con éxito!");
+			printf("Registro eliminado con éxito!");
 		}
 		else {
-			printf("\nSe canceló la operación.");
+			printf("Se canceló la operación.");
 		}
 	}
 	fclose(pf);
-	_getch();
+	getch();
 }
 void Mostrar()
 {
@@ -179,17 +151,16 @@ void Mostrar()
 	system("cls");
 	if (pf == NULL)
 	{
-		printf("\nError de apertura");
-		_getch();
-		fclose(pf);
+		printf("Error de apertura");
+		getch();
 		return;
 	}
 	info = fopen(INFO, "w");
 	if (info == NULL)
 	{
-		printf("\nNo se puede generar el informe");
-		_getch();
-		fclose(info);
+		printf("No se puede generar el informe");
+		getch();
+		fclose(pf);
 		return;
 	}
 	fprintf(info, "%6s   %20s   %8s   %6s\n", "CÓDIGO", "DESCRIPCIÓN", "UNIDADES", "PRECIO");
@@ -203,8 +174,8 @@ void Mostrar()
 	}
 	fclose(pf);
 	fclose(info);
-	printf("\nInforme generado con éxito!!!");
-	_getch();
+	printf("Informe generado con éxito!!!");
+	getch();
 
 }
 void Consultar()
@@ -216,9 +187,8 @@ void Consultar()
 	system("cls");
 	if (pf == NULL)
 	{
-		printf("\nError al abrir el fichero");
-		fclose(pf);
-		_getch();
+		printf("Error al abrir el fichero");
+		getch();
 		return;
 	}
 	pos = PedirPos();
@@ -226,7 +196,7 @@ void Consultar()
 	fread(&reg, sizeof(reg), 1, pf);
 	if (reg.estado == 0)
 	{
-		printf("\nEl registro especificado no existe.");
+		printf("El registro especificado no existe.");
 	}
 	else
 	{
@@ -234,16 +204,16 @@ void Consultar()
 
 	}
 	fclose(pf);
-	_getch();
+	getch();
 }
 int Menu()
 {
 	int opc = 0;
 	system("cls");
-	printf("\n0.Salir\n1.Crear\n2.Realizar\n3.Alta\n4.Baja\n5.Mostrar\n6.Consultar\nIntroduce Opcion: ");
+	printf("0.Salir\n1.Crear\n2.Realizar\n3.Alta\n4.Baja\n5.Mostrar\n6.Consultar\nIntroduce Opcion: ");
 	do
 	{
-		GotoXY(19, 8);
+		GotoXY(19, 7);
 		scanf("%d", &opc);
 	} while (opc < 0 || opc>6);
 
@@ -264,10 +234,10 @@ int PedirPos()
 {
 	int pos;
 	system("cls");
-	printf("\nPosición: ");
+	printf("Posición: ");
 	do
 	{
-		GotoXY(10, 1);
+		GotoXY(10, 0);
 		scanf("%d", &pos);
 
 	} while (pos<1 || pos>TAM);
@@ -291,8 +261,10 @@ void PedirDatos(PRODUCTO* reg)
 void MostrarDatos(PRODUCTO reg)
 {
 	system("cls");
-	printf("\nDescripción: %s", reg.descripcion);
-	printf("\nPrecio: %.2f", reg.precio);
-	printf("\nExistencias: %d", reg.existencias);
+	printf("Descripción: %s\n", reg.descripcion);
+	printf("Precio: %.2f\n", reg.precio);
+	printf("Existencias: %d\n", reg.existencias);
 
 }
+
+*/
