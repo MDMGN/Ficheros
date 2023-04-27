@@ -51,7 +51,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ficheros_ejercicio_en5.c">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ficheros_introduccion.c">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ficheros_ejercicio_en8.c">
       <SubType>
       </SubType>
     </ClCompile>

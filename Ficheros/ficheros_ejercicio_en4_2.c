@@ -17,8 +17,8 @@ void introducirTareas();
 void realizar();
 void consultar();
 int menu();
-int validarFecha(char*);
 
+/*
 int main() {
 	setlocale(LC_ALL, "");
 	int opc;
@@ -49,11 +49,9 @@ void introducirTareas() {
 	Agenda agenda;
 	FILE* pf;
 
-	do {
-		printf("\nFecha (dd/mm/aaaa): ");
-		fgets(agenda.fecha, 10, stdin);
-		fflush(stdin);
-	} while (validarFecha(agenda.fecha) == -1);
+	printf("\nFecha (dd/mm/aaaa): ");
+	fgets(agenda.fecha, 10, stdin);
+	rewind(stdin);
 
 	strtok(agenda.fecha, "\n");
 	printf("\nDescripción: ");
@@ -113,11 +111,10 @@ void consultar() {
 	char fecha[10];
 	int count = 1, encontrado = 0;
 	FILE* pf;
-	do {
-		printf("\nFecha (dd/mm/aaaa): ");
-		fgets(fecha, 10, stdin);
-		fflush(stdin);
-	} while (validarFecha(fecha) == -1);
+
+	printf("\nFecha (dd/mm/aaaa): ");
+	fgets(fecha, 10, stdin);
+	fflush(stdin);
 
 	pf = fopen(RUTA, "rb+");
 	if (pf == NULL) {
@@ -129,7 +126,6 @@ void consultar() {
 
 	fseek(pf, 0, SEEK_SET);
 	while (fread(&agenda, sizeof(Agenda), 1, pf) == 1) {
-		printf("\n%s\n", agenda.fecha);
 		if (strcmp(agenda.fecha, fecha) == 0 && agenda.realizado==0) {
 			if (!encontrado) {
 				encontrado = 1;
@@ -145,6 +141,9 @@ void consultar() {
 	fclose(pf);
 }
 
+*/
+
+/*
 int validarFecha(char* fecha_str) {
 	struct tm fecha;
 
@@ -157,4 +156,5 @@ int validarFecha(char* fecha_str) {
 	time_t t= mktime(&fecha);
 	return t;
 }
+*/
 
